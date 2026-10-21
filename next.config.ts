@@ -1,9 +1,21 @@
 import type { NextConfig } from "next";
 
+const isGithubPages = process.env.GITHUB_PAGES === "true";
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
-  cacheComponents: true,
-  partialPrefetching: true,
+  // GitHub Pages can only host a static export. Cache Components need a
+  // Node server, so that mode stays on for local dev and turns off in CI.
+  ...(isGithubPages
+    ? {
+        output: "export" as const,
+        basePath: "/Tarot_web",
+        images: { unoptimized: true },
+      }
+    : {
+        cacheComponents: true,
+        partialPrefetching: true,
+      }),
   turbopack: {
     rules: {
       "*.css": {
