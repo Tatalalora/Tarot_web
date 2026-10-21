@@ -1,14 +1,37 @@
 "use client";
 
+import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Hand, Undo2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Hand, Sparkles, Undo2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatDrawnCards } from "@/lib/tarot/format-reading";
 import type { DeckCard } from "@/lib/tarot/shuffle";
 import type { PlacedCard, Spread } from "@/lib/tarot/types";
 import { CrystalBall } from "./CrystalBall";
 import { DeckFan } from "./DeckFan";
 import { SpreadBoard } from "./SpreadBoard";
+
+/** Copy synchronously inside the click handler so the user gesture still counts for window.open. */
+function copyToClipboard(text: string): boolean {
+  try {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    document.body.removeChild(textarea);
+    return ok;
+  } catch {
+    return false;
+  }
+}
 
 interface ReadingTableProps {
   spread: Spread;
@@ -41,6 +64,22 @@ export function ReadingTable({
   onFinish,
   onBack,
 }: ReadingTableProps) {
+  const [copyFeedback, setCopyFeedback] = React.useState<"ok" | "fail" | null>(null);
+
+  const handleAskAi = () => {
+    const text = formatDrawnCards(spread, placed);
+    let copied = copyToClipboard(text);
+    if (!copied && navigator.clipboard) {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => setCopyFeedback("ok"))
+        .catch(() => setCopyFeedback("fail"));
+    } else {
+      setCopyFeedback(copied ? "ok" : "fail");
+    }
+    window.open("https://chatgpt.com/", "_blank", "noopener,noreferrer");
+  };
+
   const total = isFree ? null : spread.positions.length;
   const stepText = revealed
     ? "点击任意一张牌查看释义，看完后结束占卜。"
