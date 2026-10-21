@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
         output: "export" as const,
         basePath: "/Tarot_web",
         images: { unoptimized: true },
+        env: { NEXT_PUBLIC_BASE_PATH: "/Tarot_web" },
       }
     : {
         cacheComponents: true,

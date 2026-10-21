@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { publicPath } from "@/lib/public-path";
 import { cn } from "@/lib/utils";
 import type { TarotCardData } from "@/lib/tarot/types";
 
@@ -74,7 +75,7 @@ export function TarotCard({
         {/* Back */}
         <div className="absolute inset-0 backface-hidden overflow-hidden rounded-[8%] cel-flat bg-lavender shadow-[4px_5px_0_var(--color-ink)]">
           <Image
-            src="/card-back.svg"
+            src={publicPath("/card-back.svg")}
             alt=""
             fill
             sizes="(max-width: 640px) 25vw, 160px"

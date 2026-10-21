@@ -1,3 +1,4 @@
+import { publicPath } from "@/lib/public-path";
 import type { Suit, TarotCardData } from "./types";
 
 type MajorSeed = [
@@ -431,7 +432,7 @@ function buildCards(): TarotCardData[] {
         keywords,
         upright,
         reversed,
-        image: `/cards/major-${n}.jpg`,
+        image: publicPath(`/cards/major-${n}.jpg`),
       };
     },
   );
@@ -452,7 +453,7 @@ function buildCards(): TarotCardData[] {
         keywords: info.keywords[idx],
         upright: info.upright[idx],
         reversed: info.reversed[idx],
-        image: `/cards/${suit}-${n}.jpg`,
+        image: publicPath(`/cards/${suit}-${n}.jpg`),
       });
     }
   });
