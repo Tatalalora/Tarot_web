@@ -34,7 +34,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
         >
-          马卡龙
+          Tarot
           <br />
           <span className="text-lemon">塔罗占卜屋</span>
         </motion.h1>
@@ -45,7 +45,9 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.12 }}
         >
-          选一个牌阵，从牌堆里抽出属于你的牌，再轻轻摸一下水晶球——命运的答案就会翻开。甜甜的、软软的，但很认真。
+          变身占卜师，
+          <br />
+          为你的问题提供指引和启发
         </motion.p>
 
         <motion.div
