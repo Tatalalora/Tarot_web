@@ -158,7 +158,27 @@ export function ReadingTable({
         <div className="flex flex-col items-center gap-4 lg:w-[260px]">
           <CrystalBall ready={canReveal} revealed={revealed} remaining={remaining} onReveal={onReveal} size={160} />
           {revealed && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: placed.length * 0.35 + 0.6 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: placed.length * 0.35 + 0.6 }}
+              className="flex flex-col items-center gap-3"
+            >
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="lg"
+                    onClick={handleAskAi}
+                    className="h-12 rounded-full cel bg-lavender px-6 font-display text-base text-ink hover:bg-lavender-deep active:translate-x-[3px] active:translate-y-[3px] active:shadow-cel-sm"
+                  >
+                    <Sparkles className="size-5" />
+                    AI 占卜
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="font-display text-sm">
+                  复制本次牌面，并打开 ChatGPT
+                </TooltipContent>
+              </Tooltip>
               <Button
                 size="lg"
                 onClick={onFinish}
@@ -167,6 +187,13 @@ export function ReadingTable({
                 <CheckCircle2 className="size-5" />
                 结束占卜
               </Button>
+              {copyFeedback && (
+                <p className="max-w-[220px] text-center text-xs leading-snug text-ink-soft" aria-live="polite">
+                  {copyFeedback === "ok"
+                    ? "牌面已复制，到 ChatGPT 里粘贴即可。"
+                    : "没能复制牌面，可以手动记下牌名再提问。"}
+                </p>
+              )}
             </motion.div>
           )}
         </div>
